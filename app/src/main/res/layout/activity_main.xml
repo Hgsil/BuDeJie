@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.hgsil.android.budejie2.MainActivity">
+
+    <TextView
+        android:id="@+id/header_mainactivity"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/colorPrimary"
+        android:text="不得姐"
+        android:textColor="#fff"
+        android:textSize="20sp"
+        android:gravity="center"/>
+    <ImageView
+        android:id="@+id/watch_image"
+        android:layout_alignParentRight="true"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src = "@mipmap/watch"
+        android:padding="10dp"/>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_main_activity"
+        android:layout_below="@id/header_mainactivity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+        android:layout_below="@id/header_mainactivity"
+        android:id="@+id/recycler_mainactivity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+
+</RelativeLayout>
