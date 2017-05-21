@@ -81,6 +81,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         private CircleImageView avatar;
         private MediaPlayer mediaPlayer;
         private int currentPosition;
+        private boolean takePictureFromNet = true;
 
         private SeekBar seekBar ;
         private ImageView mediaImage;
@@ -91,6 +92,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                 super.handleMessage(msg);
                 switch (msg.what){
                     case 0:
+                        if (takePictureFromNet)
                         if (mediaImage.getTag().equals(oneNew.getVideo_uri()))
                             mediaImage.setImageBitmap(LocalCacheUtils.getBitmapFromLocal(oneNew.getId()));
                         break;
@@ -237,7 +239,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                 editor.apply();
                 // 销毁SurfaceHolder的时候记录当前的播放位置并停止播放
                 if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-
                     mediaPlayer.stop();
                     mediaPlayer = null;
                     isRebuild = true;
@@ -453,8 +454,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
 
         myBitmapUtils.disPlay(holder.avatar,holder.oneNew.getProfile_image(),holder.oneNew.getProfile_image());
-        if (!LocalCacheUtils.getBitmapFromLocal(holder.oneNew.getId()).equals(null))
+        if (!(LocalCacheUtils.getBitmapFromLocal(holder.oneNew.getId())==(null))){
             holder.mediaImage.setImageBitmap(LocalCacheUtils.getBitmapFromLocal(holder.oneNew.getId()));
+            holder.takePictureFromNet = false;
+        }
+
         else
         new Thread(){
             @Override
