@@ -1,5 +1,6 @@
 package com.hgsil.android.budejie2;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
@@ -28,11 +29,12 @@ import java.util.HashMap;
 
 public class WatchAdapter extends RecyclerView.Adapter<WatchAdapter.WatchViewHolder> {
     private ArrayList<News> mNewses ;
+    private Context mContext;
     private MyBitmapUtils myBitmapUtils = new MyBitmapUtils();
     class WatchViewHolder extends RecyclerView.ViewHolder{
         News oneNew;
         TextView title,userName,watchTime;
-        ImageView mediaImage;
+        ImageView mediaImage,delete;
         CircleImageView avatar;
 
         Handler mHandler = new Handler(){
@@ -50,7 +52,19 @@ public class WatchAdapter extends RecyclerView.Adapter<WatchAdapter.WatchViewHol
             userName = (TextView)itemView.findViewById(R.id.watch_item_username);
             avatar = (CircleImageView)itemView.findViewById(R.id.watch_item_avatar);
             watchTime = (TextView)itemView.findViewById(R.id.watch_item_watchTime);
-
+            delete =  (ImageView)itemView.findViewById(R.id.watch_item_delete);
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    delete(oneNew.getId());
+                    for (int i = 0; i < mNewses.size() ; i++) {
+                        if (mNewses.get(i).getId().equals(oneNew.getId())){
+                            mNewses.remove(i);
+                        }
+                    }
+                    notifyDataSetChanged();
+                }
+            });
         }
         //获取视频首桢图片
         private Bitmap createVideoThumbnail(String url, int width, int height) {
@@ -82,12 +96,17 @@ public class WatchAdapter extends RecyclerView.Adapter<WatchAdapter.WatchViewHol
             }
             return bitmap;
         }
-
+        private void delete(String id){
+            MyDatabaseHelper.DataBaseBuilder.getDataBaseHelper(mContext).delete("Watch","id=?",new String[]{
+                    id
+            });
+        }
     }
 
-    public WatchAdapter(ArrayList<News> newses) {
+    public WatchAdapter(ArrayList<News> newses, Context context) {
         mNewses = new ArrayList<>();
         mNewses.addAll(newses);
+        mContext = context;
     }
 
     @Override
@@ -103,7 +122,7 @@ public class WatchAdapter extends RecyclerView.Adapter<WatchAdapter.WatchViewHol
         holder.userName.setText(holder.oneNew.getName());
         holder.title.setText(holder.oneNew.getText());
         myBitmapUtils.disPlay(holder.avatar,holder.oneNew.getProfile_image(),holder.oneNew.getId());
-
+        holder.delete.setImageResource(R.mipmap.delete);
         holder.watchTime.setText(holder.oneNew.getWatchTime()+" 观看");
     }
 

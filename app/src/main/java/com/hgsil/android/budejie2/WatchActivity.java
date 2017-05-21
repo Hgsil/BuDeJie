@@ -27,7 +27,7 @@ public class WatchActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
         getDataFromDataBase();
-        mWatchAdapter = new WatchAdapter(mNewses);
+        mWatchAdapter = new WatchAdapter(mNewses,this);
         mRecyclerView.setAdapter(mWatchAdapter);
     }
     public void getDataFromDataBase(){

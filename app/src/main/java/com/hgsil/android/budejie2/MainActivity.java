@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 if (newState ==RecyclerView.SCROLL_STATE_IDLE &&
                         lastVisibleItem+ 1 ==mAdapter.getItemCount()){
                     notAdd = false;
+                    page = 0;
                     setNewses();
                     notAdd = true;
                 }
